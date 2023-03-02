@@ -1,6 +1,6 @@
 <template>
     <div class="player-panel" :class="{ active: activePlayer == 0 }">
-        <div class="player-name">Player 1</div>
+        <div class="player-name">{{ this.name[0] }}</div>
         <div class="player-score" :scorePlayer="scorePlayer">{{ scorePlayer[0] }}</div>
         <div class="player-current-box">
             <div class="player-current-label">Current</div>
@@ -8,7 +8,7 @@
         </div>
     </div>
     <div class="player-panel" :class="{ active: activePlayer == 1 }">
-        <div class="player-name">Player 2</div>
+        <div class="player-name">{{ this.name[1] }}</div>
         <div class="player-score" :scorePlayer="scorePlayer">{{ scorePlayer[1] }}</div>
         <div class="player-current-box">
             <div class="player-current-label">Current</div>
@@ -20,9 +20,15 @@
 <script>
 export default {
     data() {
-        return {}
+        return {
+            name: ['Player 1', "Player 2"]
+        }
     },
     props: {
+        isWinner: {
+            type: Array,
+            default: [false, false]
+        },
         scorePlayer: {
             type: Array,
             default: [0, 0]
@@ -34,6 +40,19 @@ export default {
         currentScore: {
             type: Number,
             default: 0
+        }
+    },
+    computed: {
+        changeName() {
+            if (this.isWinner[0] == true) {
+                return this.name[0] = 'Winner', this.name[1] = 'Player 2'
+            }
+            if (this.isWinner[1] == true) {
+                return this.name[1] = 'Winner', this.name[0] = 'Player 1'
+            }
+            if (this.isWinner[0] == false & this.isWinner[1] == false) {
+                return this.name[1] = 'Player 2', this.name[0] = 'Player 1'
+            }
         }
     }
 }

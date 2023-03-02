@@ -2,7 +2,9 @@
     <div class="wrapper-popup" :class="getClassPopup">
         <div class="rule">
             <h3>Luật chơi</h3>
-            <p>Nội dung luật chơi</p>
+            <p>1. Ai đạt điểm bằng hoặc lớn hơn Final score là thắng!</p>
+            <p>2. Nếu tung xúc xắc ra 1 điểm sẽ bị mất lượt và điểm của lượt chơi đó</p>
+            <p>3. Chọn "Hold" để giữ điểm và lượt chơi sẽ chuyển sang cho đối phương</p>
             <button class="confirm" @click="offPopup">Ok</button>
         </div>
     </div>

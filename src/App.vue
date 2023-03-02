@@ -1,6 +1,7 @@
 <template>
     <div class="wrapper clearfix">
-        <comp-player :scorePlayer="scorePlayer" :activePlayer="activePlayer" :currentScore="currentScore" />
+        <comp-player :scorePlayer="scorePlayer" :activePlayer="activePlayer" :currentScore="currentScore"
+            :isWinner="isWinner" />
         <comp-control @handleNewGame="handleNewGame" @handleRollDices="handleRollDices" @handleHoldScore="handleHoldScore"
             @handleFinalScore="handleFinalScore" :isPlaying="isPlaying" />
         <comp-dice :dices="dices" />
@@ -29,7 +30,8 @@ export default {
             isPlaying: false,
             isOpenPopup: false,
             dices: [1, 3],
-            finalScore: 0
+            finalScore: 0,
+            isWinner: [false, false]
         }
     },
     methods: {
@@ -48,24 +50,37 @@ export default {
         },
         handleNewGame() {
             this.isOpenPopup = true
+            this.isWinner = [false, false]
         },
         handleHoldScore() {
             if (this.activePlayer == 1) {
                 this.activePlayer = 0
                 this.scorePlayer[1] += this.currentScore
+                if (this.scorePlayer[0] >= this.finalScore) {
+                    this.isWinner[0] = true
+                    this.isPlaying = false
+                    this.activePlayer = 1
+                }
+                if (this.scorePlayer[1] >= this.finalScore) {
+                    this.isWinner[1] = true
+                    this.isPlaying = false
+                    this.activePlayer = 1
+                }
             } else {
-                this.activePlayer = 1
                 this.scorePlayer[0] += this.currentScore
+                this.activePlayer = 1
+                if (this.scorePlayer[0] >= this.finalScore) {
+                    this.isWinner[0] = true
+                    this.isPlaying = false
+                    this.activePlayer = 0
+                }
+                if (this.scorePlayer[1] >= this.finalScore) {
+                    this.isWinner[1] = true
+                    this.isPlaying = false
+                    this.activePlayer = 0
+                }
             }
             this.currentScore = 0
-            if (this.scorePlayer[0] >= this.finalScore) {
-                alert("Player 1 đã chiến thắng")
-                this.isPlaying = false
-            }
-            if (this.scorePlayer[1] >= this.finalScore) {
-                alert("Player 2 đã chiến thắng")
-                this.isPlaying = false
-            }
         },
         handleOffPopup() {
             this.isOpenPopup = false
